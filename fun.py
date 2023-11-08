@@ -111,8 +111,7 @@ def timeOut(type="main"):
     if type=="teh":
         time_sleep=random.randint(config.timeoutTehMin, config.timeoutTehMax)
         
-    if int(time_sleep/60) > 0:
-        log(f"пауза {int(time_sleep/60)} минут")
+    log(f"Пауза {time_sleep} секунд")
     time.sleep(time_sleep)
 
 
