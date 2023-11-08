@@ -34,8 +34,9 @@ for private_key in keys_list:
             log("Недостаточно эфира")
             continue 
 
+        mainnet = Web3(Web3.HTTPProvider(config.rpc_links['ETH']))
         while True:
-            gasPrice = web3.eth.gas_price
+            gasPrice = mainnet.eth.gas_price
             gasPrice_Gwei = Web3.from_wei(gasPrice, 'Gwei')
             log(f"gasPrice_Gwei = {gasPrice_Gwei}")
             if config.max_gas_price > gasPrice_Gwei:
@@ -61,7 +62,7 @@ for private_key in keys_list:
         signed_txn = web3.eth.account.sign_transaction(transaction, private_key)
         txn_hash = web3.to_hex(web3.eth.send_raw_transaction(signed_txn.rawTransaction))
         tx_result = web3.eth.wait_for_transaction_receipt(txn_hash)
-        print(tx_result)
+
         if tx_result['status'] == 1:
             contractAddress = tx_result['contractAddress']
             log_ok(f'deploy OK: https://scrollscan.com/tx/{txn_hash}')
@@ -69,7 +70,12 @@ for private_key in keys_list:
         else:
             log_error(f'deploy false: {txn_hash}')
 
-        timeOut()  
+        timeOut()
+    
+    except Exception as error:
+        fun.log_error(f'Error: {error}')    
+        timeOut("teh")
+        continue
     
 log("Ну типа все, кошельки закончились!")        
 
