@@ -5,17 +5,9 @@ import requests
 import random
 from datetime import datetime
 import config
+import contracts
 import fun
 from fun import *
-
-
-deploy_bytcode = [
-    'constract1',
-    'constract2',
-    'constract3',
-    'constract4',
-    'constract5',
-]
 
 deploy_abi = []
 
@@ -54,7 +46,7 @@ for private_key in keys_list:
 
         contract = web3.eth.contract(
             abi=deploy_abi,
-            bytecode=random.choice(deploy_bytcode)
+            bytecode=random.choice(contracts.deploy_bytecode)
         )
 
         transaction = contract.constructor().build_transaction({
